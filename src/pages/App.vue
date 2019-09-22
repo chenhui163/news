@@ -1,5 +1,8 @@
 <template>
   
+    <!-- 占位符，用来渲染其他页面内容 -->
+    <router-view></router-view>
+
 </template>
 
 <script>
@@ -60,6 +63,13 @@ a:hover {
     color: #e33333;
 }
 
+button,
+input {
+  font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB,
+    \\5b8b\4f53, sans-serif;
+  border: none;
+  outline: none;
+}
 
 .hide,
 .none {
@@ -85,5 +95,8 @@ a:hover {
 .fr {
     float: right
 }
+
+/* 引入字体图标 */
+@import url("http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css");
 
 </style>
