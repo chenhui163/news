@@ -1,3 +1,4 @@
+// 引入vue
 import Vue from "vue";
 
 // 路由：1.导入路由构造函数
@@ -13,7 +14,7 @@ Vue.use(VueRouter);
 
 // 路由：2.创建路由配置
 const routes = [
-    { path:'/login',component:Login }
+    { path: '/login',component: Login }
 ]
 
 // 路由：3.创建路由实例，引入路由配置
