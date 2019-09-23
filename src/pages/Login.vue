@@ -46,7 +46,11 @@
 
         <!-- 登录按钮 -->
         <button class="loginBtn">
-            <span @click="userLogin">登录</span>
+            <!-- <span @click="userLogin">登录</span> -->
+            <AuthButton
+              text="登录"
+              @user-click="handleLogin"
+            ></AuthButton>
         </button>
 
     </div>
@@ -57,12 +61,14 @@
 
 // 导入input输入框组件
 import AuthInput from "@/components/AuthInput";
+import AuthButton from "@/components/AuthButton";
 
 export default {
   // 导入组件必须进行注册才能使用
   // 注册AuthInput组件
   components:{
-    AuthInput
+    AuthInput,
+    AuthButton
   },
 
   // 数据
@@ -89,8 +95,8 @@ export default {
     },
 
     // 用户登录
-    userLogin(){
-      console.log(this.form);
+    handleLogin(event){
+      console.log(event);
     }
 
   }
@@ -135,13 +141,7 @@ export default {
   font-size: 18/320*100vw;
   color: #fff;
   background: none;
-  span {
-    display: block;
-    padding: 10px 0;
-    width: 100%;
-    background: #cc3300;
-    border-radius: 19/320*100vw;
-  }
+
 }
 
 </style>
