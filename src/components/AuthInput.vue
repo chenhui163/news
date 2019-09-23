@@ -53,7 +53,7 @@ export default {
         handleInput(event){
             // 从事件对象中解购出输入框的值
             const {value} = event.target;
-            console.log(value)
+            
             // 触发父组件的user-Input事件，返回输入框的值
             this.$emit("user-Input",value);
 

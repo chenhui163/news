@@ -11,6 +11,9 @@ import VueRouter from 'vue-router';
 // 导入vant-ui组件
 import Vant from "vant";
 
+// 导入axios
+import axios from "axios";
+
 // 导入组件
 import App from "@/App";
 import Login from "@/pages/Login"; // 导入登录页面组件
@@ -23,6 +26,9 @@ import Login from "@/pages/Login"; // 导入登录页面组件
 Vue.use(VueRouter);
 // 注册Vant插件
 Vue.use(Vant);
+
+// 把axios挂载到Vue的原型对象上，可以通过this.$axios来使用
+Vue.prototype.$axios = axios;
 
 // 路由：2.创建路由配置
 /* 

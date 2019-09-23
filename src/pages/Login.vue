@@ -101,7 +101,7 @@ export default {
     handleLogin(event){
       // console.log(event);
 
-      axios({
+      this.$axios({
         url: "http://127.0.0.1:3000/login",
         method: "POST", // method 相当于 type
         data: this.form,
