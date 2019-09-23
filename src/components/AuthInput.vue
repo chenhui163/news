@@ -73,7 +73,9 @@ export default {
         handleChange(){
             // 如果输入框失去焦点时正则表达式校验结果是错误，就弹出提示框
             if(this.error_message && this.status === "error"){
-                alert(this.error_message)
+                // alert(this.error_message)
+                // 使用vant-ui组件实现弹窗效果
+                this.$toast.fail(this.error_message);
             }
         }
 

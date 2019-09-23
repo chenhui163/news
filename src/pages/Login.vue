@@ -63,6 +63,9 @@
 import AuthInput from "@/components/AuthInput";
 import AuthButton from "@/components/AuthButton";
 
+// 导入请求库
+import axios from "axios";
+
 export default {
   // 导入组件必须进行注册才能使用
   // 注册AuthInput组件
@@ -96,7 +99,16 @@ export default {
 
     // 用户登录
     handleLogin(event){
-      console.log(event);
+      // console.log(event);
+
+      axios({
+        url: "http://127.0.0.1:3000/login",
+        method: "POST", // method 相当于 type
+        data: this.form,
+        // .then的回调函数相当于success
+      }).then((res)=>{
+        console.log(res)
+      })
     }
 
   }
