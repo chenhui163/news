@@ -99,4 +99,7 @@ input {
 /* 引入字体图标 */
 @import url("http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css");
 
+/* 引入vant-ui插件的功能 */
+@import url("../node_modules/vant/lib/index.css");
+
 </style>

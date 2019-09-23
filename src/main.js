@@ -1,17 +1,28 @@
+/* 
+    插件：1.任何插件要使用，都要导入
+*/
+
 // 引入vue
 import Vue from "vue";
 
 // 路由：1.导入路由构造函数
 import VueRouter from 'vue-router';
 
+// 导入vant-ui组件
+import Vant from "vant";
+
 // 导入组件
 import App from "@/App";
 import Login from "@/pages/Login"; // 导入登录页面组件
 
 
-// 在.vue文件中使用router-link和router-view，要先注册路由插件
-// 注册路由插件
+/* 
+    插件：2.任何插件要是用都必须先注册
+*/
+// 注册路由插件,在.vue文件中使用router-link和router-view，要先注册路由插件
 Vue.use(VueRouter);
+// 注册Vant插件
+Vue.use(Vant);
 
 // 路由：2.创建路由配置
 /* 
