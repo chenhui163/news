@@ -17,6 +17,7 @@ import axios from "axios";
 // 导入组件
 import App from "@/App";
 import Login from "@/pages/Login"; // 导入登录页面组件
+import Register from "@/pages/Register"; // 导入登录页面组件
 
 
 /* 
@@ -38,7 +39,9 @@ axios.defaults.baseURL = "http://localhost:3000";
 */
 const routes = [
     // { path:'/',redirect:"/login" },
-    { path:'/login', component: Login }
+    { path:'/login', component: Login },
+    { path:'/register', component: Register }
+
 ]
 
 // 路由：3.创建路由实例，引入路由配置

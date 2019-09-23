@@ -14,13 +14,12 @@
 
         <!-- 用户名 -->
         <div class="userInput">
-            <!-- <input type="text" placeholder="用户名"> -->
             <AuthInput
               placeholder="用户名"
               type="text"
               :value="form.username"
 
-              :rule="/^1[0-9]{4,10}$/"
+              :rule="/^\d{4,10}$/"
               error_message="手机号码格式有误"
 
               @user-Input="handleUserName"
@@ -28,9 +27,23 @@
 
         </div>
 
+        <!-- 昵称 -->
+        <div class="userInput">
+            <AuthInput
+              placeholder="昵称"
+              type="text"
+              :value="form.nickname"
+
+              :rule="/^[0-9a-zA-Z\u4e00-\u9fa5]{2,6}$/"
+              error_message="昵称格式有误"
+
+              @user-Input="handleNickName"
+            ></AuthInput>
+
+        </div>
+
         <!-- 密码 -->
         <div class="userInput">
-            <!-- <input type="text" placeholder="密码"> -->
             <AuthInput
               placeholder="密码"
               type="password"
@@ -46,9 +59,8 @@
 
         <!-- 登录按钮 -->
         <button class="loginBtn">
-            <!-- <span @click="userLogin">登录</span> -->
             <AuthButton
-              text="登录"
+              text="注册"
               @user-click="handleLogin"
             ></AuthButton>
         </button>
@@ -80,7 +92,8 @@ export default {
       // form对象保存的是用户名和密码两个输入框的值
       form:{
         username:"",
-        password:""
+        password:"",
+        nickname:""
       }
     }
   },
@@ -92,17 +105,21 @@ export default {
       this.form.username = value;
     },
 
+    // 将昵称输入框的值同步到form对象中
+    handleNickName(value){
+      this.form.nickname = value;
+    },
+
     // 将密码输入框的值同步到form对象中
     handleUserPassword(value){
       this.form.password = value;
     },
 
-    // 用户登录
+    // 用户注册
     handleLogin(event){
-      // console.log(event);
 
       this.$axios({
-        url: "/login",
+        url: "/register",
         method: "POST", // method 相当于 type
         data: this.form,
         // .then的回调函数相当于success
@@ -111,10 +128,10 @@ export default {
         // 将服务器返回的提示信息从返回的数据中解购出来
         const { message } = {...res.data}
 
-        // 通过提示信息判断是否登录成功
-        if(message==="登录成功"){
-          // 登录成功则跳转到首页
-          this.$router.push("/")
+        // 通过提示信息判断是否注册成功
+        if(message==="注册成功"){
+          // 注册成功则跳转到登录页
+          this.$router.push("/login")
         }
 
       })
