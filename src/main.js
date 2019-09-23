@@ -5,8 +5,8 @@ import Vue from "vue";
 import VueRouter from 'vue-router';
 
 // 导入组件
-import App from "@/pages/App";
-import Login from "@/components/Login"; // 导入登录页面组件
+import App from "@/App";
+import Login from "@/pages/Login"; // 导入登录页面组件
 
 
 // 在.vue文件中使用router-link和router-view，要先注册路由插件
@@ -18,7 +18,7 @@ Vue.use(VueRouter);
     负责对各种请求进行路由匹配
 */
 const routes = [
-    
+    { path:'/',redirect:"/login" },
     { path:'/login', component: Login }
 ]
 

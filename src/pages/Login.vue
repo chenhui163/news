@@ -14,17 +14,31 @@
 
         <!-- 用户名 -->
         <div class="userInput">
-            <input type="text" placeholder="用户名">
+            <!-- <input type="text" placeholder="用户名"> -->
+            <AuthInput
+              placeholder="用户名"
+              type="text"
+
+              @user-Input="handleUserName"
+            ></AuthInput>
+
         </div>
 
         <!-- 密码 -->
         <div class="userInput">
-            <input type="password" placeholder="密码">
+            <!-- <input type="text" placeholder="密码"> -->
+            <AuthInput
+              placeholder="密码"
+              type="password"
+
+              @user-Input="handleUserPassword"
+            ></AuthInput>
+
         </div>
 
         <!-- 登录按钮 -->
         <button class="loginBtn">
-            <span>登录</span>
+            <span @click="userLogin">登录</span>
         </button>
 
     </div>
@@ -32,7 +46,46 @@
 </template>
 
 <script>
+
+// 导入input输入框组件
+import AuthInput from "@/components/AuthInput";
+
 export default {
+  // 导入组件必须进行注册才能使用
+  // 注册AuthInput组件
+  components:{
+    AuthInput
+  },
+
+  // 数据
+  data(){
+    return {
+      // form对象保存的是用户名和密码两个输入框的值
+      form:{
+        username:"",
+        password:""
+      }
+    }
+  },
+
+  // 方法
+  methods:{
+    // 将用户名输入框的值同步到form对象中
+    handleUserName(value){
+      this.form.username = value;
+    },
+
+    // 将密码输入框的值同步到form对象中
+    handleUserPassword(value){
+      this.form.password = value;
+    },
+
+    // 用户登录
+    userLogin(){
+      console.log(this.form);
+    }
+
+  }
 
 }
 </script>
@@ -63,13 +116,7 @@ export default {
 .userInput{
   padding: 0 20px;
   margin-top: 10px;
-  input{
-    box-sizing: border-box;
-    padding: 10px 0;
-    width: 100%;
-    border-bottom: 1.5px solid #757575;
-    font-size: 18/320*100vw;
-  }
+
 }
  // 按钮样式
 .loginBtn{
