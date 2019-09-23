@@ -29,13 +29,15 @@ Vue.use(Vant);
 
 // 把axios挂载到Vue的原型对象上，可以通过this.$axios来使用
 Vue.prototype.$axios = axios;
+// 添加基准路径，往后每次请求都会自动在请求的url前加上此路径
+axios.defaults.baseURL = "http://localhost:3000";
 
 // 路由：2.创建路由配置
 /* 
     负责对各种请求进行路由匹配
 */
 const routes = [
-    { path:'/',redirect:"/login" },
+    // { path:'/',redirect:"/login" },
     { path:'/login', component: Login }
 ]
 

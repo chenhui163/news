@@ -107,7 +107,16 @@ export default {
         data: this.form,
         // .then的回调函数相当于success
       }).then((res)=>{
-        console.log(res)
+        
+        // 将服务器返回的提示信息从返回的数据中解购出来
+        const { message } = {...res.data}
+
+        // 通过提示信息判断是否登录成功
+        if(message==="登录成功"){
+          // 登录成功则跳转到首页
+          this.$router.push("/");
+        }
+
       })
     }
 
