@@ -18,6 +18,10 @@
             <AuthInput
               placeholder="用户名"
               type="text"
+              :value="form.username"
+
+              :rule="/^1[0-9]{4,10}$/"
+              error_message="手机号码格式有误"
 
               @user-Input="handleUserName"
             ></AuthInput>
@@ -30,6 +34,10 @@
             <AuthInput
               placeholder="密码"
               type="password"
+              :value="form.password"
+
+              :rule="/^\d{3}$/"
+              error_message="密码格式有误"
 
               @user-Input="handleUserPassword"
             ></AuthInput>
