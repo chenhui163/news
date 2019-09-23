@@ -36,7 +36,7 @@
               type="password"
               :value="form.password"
 
-              :rule="/^\d{3}$/"
+              :rule="/^[0-9a-zA-Z]{3,12}$/"
               error_message="密码格式有误"
 
               @user-Input="handleUserPassword"

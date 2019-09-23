@@ -72,7 +72,7 @@ export default {
         // 每当输入框失去交焦点时触发此方法
         handleChange(){
             // 如果输入框失去焦点时正则表达式校验结果是错误，就弹出提示框
-            if(!this.rule.test(this.value)){
+            if(this.error_message && this.status === "error"){
                 alert(this.error_message)
             }
         }
