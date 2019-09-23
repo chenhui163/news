@@ -44,6 +44,11 @@
 
         </div>
 
+        <p class="tips">
+        没有账号？ 
+        <router-link to="/register">去注册</router-link>
+        </p>
+
         <!-- 登录按钮 -->
         <button class="loginBtn">
             <!-- <span @click="userLogin">登录</span> -->
@@ -163,6 +168,15 @@ export default {
   color: #fff;
   background: none;
 
+}
+
+// 注册提示样式
+.tips{
+  text-align: right;
+  margin-bottom: 20px;
+  a{
+    color:#3385ff;
+  }
 }
 
 </style>
