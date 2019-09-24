@@ -53,6 +53,28 @@ const router = new VueRouter({
     routes
 })
 
+// 设置路由卫士
+// 路由守卫，就是一页面跳转之前的拦截器
+// to要跳转之后的页面,去哪里
+// from跳转之前的页面，来自哪里
+// next 必须要调用next()。调用才会执行跳转，还可以重定向，next("/login")
+router.beforeEach((to, from, next)=>{
+    // 获取token
+    const isToken = localStorage.getItem("token");
+
+    // 判断要跳转到页面是否是个人中心页面
+    if(to.path==="/personal"){
+        // 判断是否有token
+        if(isToken){
+            return next(); // 如果有token，就正常跳转
+        }else{
+            return next("/login"); // 如果没有token，就重定向到登录页
+        }
+    }
+    // 其他请求可以正常跳转
+    next();
+})
+
 
 // axios统一拦截器，拦截服务器响应，每个服务器的响应都会经过这个拦截器
 axios.interceptors.response.use((res)=>{
