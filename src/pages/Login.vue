@@ -107,8 +107,8 @@ export default {
           localStorage.setItem("token", data.token);
           localStorage.setItem("user_id", data.user.id);
 
-          // 登录成功则跳转到个人中心
-          this.$router.push("/personal");
+          // 登录成功则将个人中心页面覆盖到本页面
+          this.$router.replace("/personal");
         }
       });
     }

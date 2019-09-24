@@ -85,6 +85,12 @@ axios.interceptors.response.use((res)=>{
     if(statusCode===401){
         Toast.fail(message)
     }
+
+    // 判断token是否过期或者无效
+    if(message==="用户信息验证失败"){
+        router.push("/login");  // 如果无效则重定向到登录页面
+    }
+
     // 必须要返回res
     return res;
 });

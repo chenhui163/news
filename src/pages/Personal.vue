@@ -54,6 +54,11 @@ export default {
 
     // 页面加载完毕时调用
     mounted(){
+        // 如果没有token或者用户id，将登录页面覆盖本页面
+        if(!localStorage.getItem("user_id") || !localStorage.getItem("token")){
+            this.$router.replace("/login");
+        }
+
         // 请求用户信息
         this.$axios({
             url:"/user/"+localStorage.getItem("user_id"),
@@ -65,13 +70,17 @@ export default {
         }).then(res=>{
             // 从服务器返回的数据中解购出data对象
             let {data} = res.data;
-            this.userData = data;
 
-            // 判断是否有头像
-            if(data.head_img){
-                this.userData.head_img = this.$axios.defaults.baseURL + userData.head_img;
-            }else{
-                this.userData.head_img = "./static/yellow-red.jpg";
+            // 当登录成功请求到数据时执行
+            if(data){
+                this.userData = data;
+
+                // 判断是否有头像
+                if(data.head_img){
+                    this.userData.head_img = this.$axios.defaults.baseURL + userData.head_img;
+                }else{
+                    this.userData.head_img = "./static/yellow-red.jpg";
+                }
             }
 
         })
