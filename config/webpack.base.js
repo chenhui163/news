@@ -15,6 +15,9 @@ const {
 // 引入vue-loader插件
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+// 导入复制文件夹的插件
+const CopyPlugin = require("copy-webpack-plugin");
+
 // 向外暴露对象
 module.exports = {
 
@@ -113,7 +116,12 @@ module.exports = {
         }),
 
         // vue加载器插件
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+
+        // 赋值插件,将static文件夹不经编译复制到dist下
+        new CopyPlugin([
+            { from: "static", to: "static" }
+        ])
     ]
 
 };

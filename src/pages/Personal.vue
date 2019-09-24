@@ -66,6 +66,14 @@ export default {
             // 从服务器返回的数据中解购出data对象
             let {data} = res.data;
             this.userData = data;
+
+            // 判断是否有头像
+            if(data.head_img){
+                this.userData.head_img = this.$axios.defaults.baseURL + userData.head_img;
+            }else{
+                this.userData.head_img = "./static/yellow-red.jpg";
+            }
+
         })
     }
 
