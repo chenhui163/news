@@ -43,7 +43,7 @@
     <!-- 登录按钮 -->
     <button class="loginBtn">
       <!-- <span @click="userLogin">登录</span> -->
-      <AuthButton text="登录" @user-click="handleLogin"></AuthButton>
+      <AuthButton text="登录" @click="handleLogin"></AuthButton>
     </button>
   </div>
 </template>
@@ -97,13 +97,18 @@ export default {
         data: this.form
         // .then的回调函数相当于success
       }).then(res => {
-        // 将服务器返回的提示信息从返回的数据中解购出来
-        const { message } = { ...res.data };
+        // 将服务器返回的提示信息和data数据从返回的数据中解购出来
+        const { message,data } = { ...res.data };
 
         // 通过提示信息判断是否登录成功
         if (message === "登录成功") {
-          // 登录成功则跳转到首页
-          this.$router.push("/");
+
+          // 将token令牌、用户id 保存到首页
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user_id", data.user.id);
+
+          // 登录成功则跳转到个人中心
+          this.$router.push("/personal");
         }
       });
     }
