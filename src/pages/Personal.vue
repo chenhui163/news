@@ -30,7 +30,10 @@
         second_text="文章/视频"
     ></CellBar>
 
-
+    <!-- 退出登录 -->
+    <div class="logout">
+        <div class="logoutBtn" @click="handleLogout">退出</div>
+    </div>
 
   </div>
 </template>
@@ -82,11 +85,20 @@ export default {
                     this.userData.head_img = "./static/yellow-red.jpg";
                 }
             }
-
         })
+    },
+
+    // 方法
+    methods:{
+        // 退出登录
+        handleLogout(){
+            // 清空token和user_id
+            localStorage.removeItem("token");
+            localStorage.removeItem("user_id");
+            // 将登录页面覆盖本页面
+            this.$router.replace("/login");
+        }
     }
-
-
 };
 </script>
 
@@ -123,6 +135,22 @@ export default {
         .iconjiantou1{
             color: #999;
             font-size: 18px;
+        }
+    }
+
+    .logout{
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+        padding: 20px;
+        text-align: center;
+
+        .logoutBtn{
+            padding: 10px 0;
+            width: 50%;
+            background: #0152d9;
+            border-radius: 40 / 320 *100vw;
+            color: #fff;
         }
     }
 
