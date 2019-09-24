@@ -57,6 +57,11 @@
 
         </div>
 
+        <p class="tips">
+          已有账号？
+          <router-link to="/login">去登录</router-link>
+        </p>
+
         <!-- 登录按钮 -->
         <button class="loginBtn">
             <AuthButton
@@ -180,6 +185,15 @@ export default {
   color: #fff;
   background: none;
 
+}
+
+// 注册提示样式
+.tips {
+  text-align: right;
+  margin-bottom: 20px;
+  a {
+    color: #3385ff;
+  }
 }
 
 </style>
