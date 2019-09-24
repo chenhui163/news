@@ -10,6 +10,8 @@ import VueRouter from 'vue-router';
 
 // 导入vant-ui组件
 import Vant from "vant";
+// 导入vant中的Toast
+import { Toast } from 'vant';
 
 // 导入axios
 import axios from "axios";
@@ -48,6 +50,20 @@ const routes = [
 const router = new VueRouter({
     routes
 })
+
+
+// axios统一拦截器，拦截服务器响应，每个服务器的响应都会经过这个拦截器
+axios.interceptors.response.use((res)=>{
+    // 把响应状态码和响应提示信息从响应的数据中提取出来
+    const {message,statusCode} = res.data;
+
+    // 如果状态码是401，就弹出失败提示信息
+    if(statusCode===401){
+        Toast.fail(message)
+    }
+    // 必须要返回res
+    return res;
+});
 
 
 // 根实例
