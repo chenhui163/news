@@ -1,6 +1,7 @@
 <template>
-  <div class="cell">
-      <div class="cell_wrap">
+<!-- $event是模板事件对象 -->
+  <div class="cell_wrap" @click="$emit('click',$event)">
+      <div class="cell">
           <span class="first_title">{{first_text}}</span>
           <i class="second_title">{{second_text}}</i>
           <em class="iconfont iconjiantou1"></em>
@@ -19,10 +20,10 @@ export default {
 
 <style scoped lang="less">
 
-    .cell{
+    .cell_wrap{
         padding: 0 20px;
 
-        .cell_wrap{
+        .cell{
             display: flex;
             justify-content: space-between;
             align-items: center;

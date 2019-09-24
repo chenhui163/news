@@ -22,7 +22,7 @@
               :rule="/^\d{4,10}$/"
               error_message="手机号码格式有误"
 
-              @user-Input="handleUserName"
+              @input="handleUserName"
             ></AuthInput>
 
         </div>
@@ -37,7 +37,7 @@
               :rule="/^[0-9a-zA-Z\u4e00-\u9fa5]{2,6}$/"
               error_message="昵称格式有误"
 
-              @user-Input="handleNickName"
+              @input="handleNickName"
             ></AuthInput>
 
         </div>
@@ -52,7 +52,7 @@
               :rule="/^[0-9a-zA-Z]{3,12}$/"
               error_message="密码格式有误"
 
-              @user-Input="handleUserPassword"
+              @input="handleUserPassword"
             ></AuthInput>
 
         </div>
@@ -66,7 +66,7 @@
         <button class="loginBtn">
             <AuthButton
               text="注册"
-              @user-click="handleLogin"
+              @click="handleLogin"
             ></AuthButton>
         </button>
 

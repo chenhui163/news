@@ -22,7 +22,7 @@ export default {
     methods:{
         // 点击按钮触发此方法，传回事件对象
         handleClick(event){
-            this.$emit("user-click",event);
+            this.$emit("click",event);
         }
     }
 }
