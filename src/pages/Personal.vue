@@ -2,10 +2,10 @@
   <div>
     <!-- 用户信息头部部分 -->
     <div class="userInfo">
-      <img src="../../static/yellow-red.jpg"/>
+      <img :src="userData.head_img"/>
       <div class="infoCenter">
         <div class="name">
-          <span class="iconfont iconxingbienan"></span>火星网友
+          <span class="iconfont iconxingbienan"></span>{{userData.nickname}}
         </div>
         <div class="time">2019-9-24</div>
       </div>
@@ -43,7 +43,32 @@ export default {
     // 注册条形组件，components属性的值是一个对象
     components:{
         CellBar
+    },
+
+    // 数据
+    data(){
+        return {
+            userData: {}
+        }
+    },
+
+    // 页面加载完毕时调用
+    mounted(){
+        // 请求用户信息
+        this.$axios({
+            url:"/user/"+localStorage.getItem("user_id"),
+            method:"GET",
+            // 发送token到服务器进行验证
+            headers:{
+                Authorization: localStorage.getItem("token")
+            }
+        }).then(res=>{
+            // 从服务器返回的数据中解购出data对象
+            let {data} = res.data;
+            this.userData = data;
+        })
     }
+
 
 };
 </script>
