@@ -15,10 +15,12 @@
     </router-link>
 
     <!-- 我的关注 -->
-    <CellBar
-        first_text="我的关注"
-        second_text="关注的用户"
-    ></CellBar>
+    <router-link to="/user-follow">
+        <CellBar
+            first_text="我的关注"
+            second_text="关注的用户"
+        ></CellBar>
+    </router-link>
 
     <!-- 我的跟贴 -->
     <CellBar
