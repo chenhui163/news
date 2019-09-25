@@ -38,7 +38,18 @@
         first_text="密码"
         :second_text="profile.password"
         type="password"
+        @click="passwordShow = !passwordShow"
       ></CellBar>
+
+      <!-- 密码编辑弹出框 -->
+      <van-dialog
+        v-model="passwordShow"
+        title="请修改你的密码"
+        show-cancel-button
+        @confirm="handlePassword"
+      >
+        <van-field :value="profile.password" placeholder="请输入修改后的密码" ref="password"/>
+      </van-dialog>
 
       <!-- 性别 -->
       <CellBar
@@ -142,7 +153,34 @@ export default {
                         this.$toast.success(message);
                     }
                 })
-        }
+        },
+
+        // 修改密码
+        handlePassword(){
+            // 从获取的对象中解购出需要的数据
+            const value = this.$refs.password.$refs.input.value;
+            // 通过接口更新用户的密码
+            this.$axios({
+                    url:"/user_update/"+localStorage.getItem("user_id"),
+                    method:"POST",
+                    // 发送token到服务器进行验证
+                    headers:{
+                        Authorization: localStorage.getItem("token")
+                    },
+                    data:{
+                        password:value
+                    }
+            }).then(res=>{
+                // 从服务器返回的数据中解购出需要的数据
+                const {message} = res.data;
+                // 如果修改成功，则弹出提示
+                if(message==="修改成功") {
+                    // 修改当前页面用户密码
+                    this.profile.password = value
+                    this.$toast.success(message);
+                }
+            })
+        },
     },
 
     // 页面加载完毕时调用
