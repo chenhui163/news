@@ -5,11 +5,11 @@
       <HeaderNormal title="我的关注"></HeaderNormal>
 
       <!-- 关注的用户列表 -->
-      <div class="follow-item">
+      <div class="follow-item" v-for="(item,index) in list" :key='index'>
           <img src="../../static/yellow-red.jpg">
 
           <div class="item-center">
-            <p>火星新闻</p>
+            <p>{{item.nickname}}</p>
             <span>2019-9-25</span>
           </div>
 
@@ -28,6 +28,31 @@ export default {
     components:{
         HeaderNormal
     },
+
+    // 数据
+    data(){
+        return {
+            // 关注列表
+            list:[]
+        }
+    },
+
+    // 页面刷新执行
+    mounted(){
+        this.$axios({
+            url:"/user_follows",
+            method:"GET",
+            // 发送token到服务器进行验证
+            headers:{
+                Authorization: localStorage.getItem("token")
+            }
+        }).then(res=>{
+            // 从服务器返回的数据中解购出需要的数据
+            const {data} = res.data;
+            // 将数据赋值给关注列表
+            this.list = data;
+        })
+    }
 
 }
 </script>
