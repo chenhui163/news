@@ -55,7 +55,28 @@
       <CellBar
         first_text="性别"
         :second_text="profile.gender=== 1 ? '男':'女' "
+        @click="genderShow = !genderShow"
       ></CellBar>
+
+      <!-- 性别编辑弹出框 -->
+      <van-dialog
+        v-model="genderShow"
+        title="请修改你的性别"
+        show-cancel-button
+        @confirm="handleGender"
+      >
+        <!-- 单选框 -->
+        <van-radio-group v-model="genderCache">
+         <van-cell-group>
+           <van-cell title="男" clickable @click="genderCache = `1`">
+             <van-radio slot="right-icon" name="1" />
+           </van-cell>
+           <van-cell title="女" clickable @click="genderCache = `0`">
+             <van-radio slot="right-icon" name="0" />
+           </van-cell>
+         </van-cell-group>
+        </van-radio-group>
+      </van-dialog>
 
   </div>
 </template>
@@ -79,6 +100,8 @@ export default {
             passwordShow:false,
             genderShow:false,
 
+            // 缓存单选框的性别
+            genderCache:`1`
         };
     },
 
@@ -181,6 +204,33 @@ export default {
                 }
             })
         },
+
+        // 修改性别
+        handleGender(){
+            // 从获取的对象中解购出需要的数据
+            const value = +this.genderCache;
+            // 通过接口更新用户的性别
+            this.$axios({
+                    url:"/user_update/"+localStorage.getItem("user_id"),
+                    method:"POST",
+                    // 发送token到服务器进行验证
+                    headers:{
+                        Authorization: localStorage.getItem("token")
+                    },
+                    data:{
+                        gender:value
+                    }
+            }).then(res=>{
+                // 从服务器返回的数据中解购出需要的数据
+                const {message} = res.data;
+                // 如果修改成功，则弹出提示
+                if(message==="修改成功") {
+                    // 修改当前页面用户性别
+                    this.profile.gender = value;
+                    this.$toast.success(message);
+                }
+            })
+        }
     },
 
     // 页面加载完毕时调用
@@ -199,6 +249,7 @@ export default {
             // 当成功请求到数据时执行
             if(data){
                 this.profile = data;
+                this.genderCache = String(this.profile.gender);
                 // 判断是否有头像
                 if(data.head_img){
                     this.profile.head_img = this.$axios.defaults.baseURL + this.profile.head_img;
