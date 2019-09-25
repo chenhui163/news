@@ -20,7 +20,18 @@
       <CellBar
         first_text="昵称"
         :second_text="profile.nickname"
+        @click="nicknameShow = !nicknameShow"
       ></CellBar>
+
+      <!-- 昵称编辑弹出框 -->
+      <van-dialog
+        v-model="nicknameShow"
+        title="请修改你的昵称"
+        show-cancel-button
+        @confirm="handleNickName"
+      >
+        <van-field :value="profile.nickname" placeholder="请输入修改后的昵称" ref="nickname"/>
+      </van-dialog>
 
       <!-- 密码 -->
       <CellBar
@@ -51,7 +62,12 @@ export default {
     // 数据
     data(){
         return {
-            profile:{}
+            profile:{},
+            // 昵称、密码、性别修改弹出框的判断条件
+            nicknameShow:false,
+            passwordShow:false,
+            genderShow:false,
+
         };
     },
 
@@ -99,6 +115,33 @@ export default {
                 })
             })
 
+        },
+
+        // 修改昵称
+        handleNickName(){
+            // 从获取的对象中解购出需要的数据
+            const value = this.$refs.nickname.$refs.input.value;
+            // 通过接口更新用户的昵称
+            this.$axios({
+                    url:"/user_update/"+localStorage.getItem("user_id"),
+                    method:"POST",
+                    // 发送token到服务器进行验证
+                    headers:{
+                        Authorization: localStorage.getItem("token")
+                    },
+                    data:{
+                        nickname:value
+                    }
+                }).then(res=>{
+                    // 从服务器返回的数据中解购出需要的数据
+                    const {message} = res.data;
+                    // 如果修改成功，则弹出提示
+                    if(message==="修改成功") {
+                        // 修改当前页面用户昵称
+                        this.profile.nickname = value
+                        this.$toast.success(message);
+                    }
+                })
         }
     },
 
