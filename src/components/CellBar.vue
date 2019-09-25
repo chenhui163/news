@@ -3,7 +3,10 @@
   <div class="cell_wrap" @click="$emit('click',$event)">
       <div class="cell">
           <span class="first_title">{{first_text}}</span>
-          <i class="second_title">{{second_text}}</i>
+
+          <!-- 如果type等于password，显示星号 -->
+          <i class="second_title">{{ type === 'password'? '******' : second_text}}</i>
+
           <em class="iconfont iconjiantou1"></em>
       </div>
   </div>
@@ -13,7 +16,8 @@
 export default {
     props:[
         "first_text",
-        "second_text"
+        "second_text",
+        "type"
     ]
 }
 </script>

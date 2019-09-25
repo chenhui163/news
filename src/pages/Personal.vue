@@ -73,6 +73,7 @@ export default {
                 Authorization: localStorage.getItem("token")
             }
         }).then(res=>{
+            console.log(res.data)
             // 从服务器返回的数据中解购出data对象
             let {data} = res.data;
 
@@ -82,7 +83,7 @@ export default {
 
                 // 判断是否有头像
                 if(data.head_img){
-                    this.userData.head_img = this.$axios.defaults.baseURL + userData.head_img;
+                    this.userData.head_img = this.$axios.defaults.baseURL + this.userData.head_img;
                 }else{
                     this.userData.head_img = "./static/yellow-red.jpg";
                 }

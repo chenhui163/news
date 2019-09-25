@@ -3,32 +3,33 @@
 
       <!-- 头部部分 -->
       <div class="head">
-          <span class="iconfont iconjiantou"></span>
+          <span class="iconfont iconjiantou" @click="$router.back()"></span>
           <i>编辑资料</i>
           <span></span>
       </div>
 
       <!-- 图片部分 -->
       <div class="head_image">
-          <img src="../../static/yellow-red.jpg" alt="">
+          <img :src="profile.head_img" alt="">
       </div>
 
       <!-- 昵称 -->
       <CellBar
         first_text="昵称"
-        second_text="火星网友"
+        :second_text="profile.nickname"
       ></CellBar>
 
       <!-- 密码 -->
       <CellBar
         first_text="密码"
-        second_text="******"
+        :second_text="profile.password"
+        type="password"
       ></CellBar>
 
       <!-- 性别 -->
       <CellBar
         first_text="性别"
-        second_text="男"
+        :second_text="profile.gender=== 1 ? '男':'女' "
       ></CellBar>
 
   </div>
@@ -43,6 +44,43 @@ export default {
     components:{
         CellBar
     },
+
+    // 数据
+    data(){
+        return {
+            profile:{}
+        }
+    },
+
+    // 页面加载完毕时调用
+    mounted(){
+        // 请求用户信息
+        this.$axios({
+            url:"/user/"+localStorage.getItem("user_id"),
+            method:"GET",
+            // 发送token到服务器进行验证
+            headers:{
+                Authorization: localStorage.getItem("token")
+            }
+        }).then(res=>{
+        console.log(res.data)
+            // 从服务器返回的数据中解购出data对象
+            let {data} = res.data;
+            // 当成功请求到数据时执行
+            if(data){
+                this.profile = data;
+                // 判断是否有头像
+                if(data.head_img){
+                    this.profile.head_img = this.$axios.defaults.baseURL + this.profile.head_img;
+                    
+                }else{
+                    this.profile.head_img = "./static/yellow-red.jpg";
+                }
+                
+            }
+        })
+    },
+
 }
 </script>
 
@@ -66,8 +104,5 @@ export default {
                 border-radius: 50%;
             }
         }
-
-
-
     }
 </style>
