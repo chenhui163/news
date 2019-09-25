@@ -23,10 +23,12 @@
     </router-link>
 
     <!-- 我的跟贴 -->
-    <CellBar
-        first_text="我的跟贴"
-        second_text="跟贴/回复"
-    ></CellBar>
+    <router-link to="/user-comment">
+        <CellBar
+            first_text="我的跟贴"
+            second_text="跟贴/回复"
+        ></CellBar>
+    </router-link>
 
     <!-- 我的收藏 -->
     <CellBar

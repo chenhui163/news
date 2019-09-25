@@ -23,6 +23,7 @@ import Register from "@/pages/Register"; // 导入登录页面组件
 import Personal from "@/pages/Personal"; // 导入登录页面组件
 import EditProfile from "@/pages/EditProfile"; // 导入登录页面组件
 import UserFollow from "@/pages/UserFollow"; // 导入登录页面组件
+import UserComment from "@/pages/UserComment"; // 导入登录页面组件
 
 /* 
     插件：2.任何插件要是用都必须先注册
@@ -47,7 +48,8 @@ const routes = [
     { path:'/register', component: Register },
     { path:'/personal', component: Personal },
     { path:'/edit-profile', component: EditProfile },
-    { path:'/user-follow', component: UserFollow }
+    { path:'/user-follow', component: UserFollow },
+    { path:'/user-comment', component: UserComment }
 
 ]
 
