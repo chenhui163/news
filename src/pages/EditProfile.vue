@@ -11,6 +11,9 @@
       <!-- 图片部分 -->
       <div class="head_image">
           <img :src="profile.head_img" alt="">
+
+          <!-- 图片上传 -->
+          <van-uploader :after-read="afterRead" class="upload_img"/>
       </div>
 
       <!-- 昵称 -->
@@ -49,6 +52,39 @@ export default {
     data(){
         return {
             profile:{}
+        };
+    },
+
+    methods:{
+        // 上传文件的方法
+        afterRead(file) {
+            // file 为返回的选中的图片
+            // console.log(file);
+
+            //构造表单数据
+            const formData = new FormData();
+            // 通过表单使用append方法追加数据
+            formData.append('file', file.file);
+            // console.log(formData);
+
+            // 发送文件上传请求
+            this.$axios({
+                url:"/upload",
+                method:"POST",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                },
+                data:formData,
+            }).then(res=>{
+                // 从服务器中响应返回的数据中解购出需要的数据
+                const {data} = res.data;
+                // 替换用户当前头像
+                this.profile.head_img = this.$axios.defaults.baseURL + data.url;
+
+                
+            })
+
         }
     },
 
@@ -63,7 +99,6 @@ export default {
                 Authorization: localStorage.getItem("token")
             }
         }).then(res=>{
-        console.log(res.data)
             // 从服务器返回的数据中解购出data对象
             let {data} = res.data;
             // 当成功请求到数据时执行
@@ -102,6 +137,16 @@ export default {
                 width: 70/360*100vw;
                 height: 70/360*100vw;
                 border-radius: 50%;
+            }
+            .upload_img{
+                position: absolute;
+                width: 70/360*100vw;
+                height: 70/360*100vw;
+                opacity: 0;
+                /deep/ .van-uploader__upload{
+                    margin: 0;
+                    padding: 0;
+                }
             }
         }
     }

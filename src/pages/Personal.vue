@@ -73,7 +73,6 @@ export default {
                 Authorization: localStorage.getItem("token")
             }
         }).then(res=>{
-            console.log(res.data)
             // 从服务器返回的数据中解购出data对象
             let {data} = res.data;
 
