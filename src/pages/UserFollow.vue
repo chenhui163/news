@@ -13,7 +13,7 @@
             <span>2019-9-25</span>
           </div>
 
-          <span class="cancel">取消关注</span>
+          <span class="cancel" @click="handleCancel(index)">取消关注</span>
 
     </div>
 
@@ -34,6 +34,32 @@ export default {
         return {
             // 关注列表
             list:[]
+        }
+    },
+
+    // 方法
+    methods:{
+        // 取消关注
+        handleCancel(index){
+            // 获取要取消关注的用户的id
+            const id = this.list[index].id;
+            this.$axios({
+                url:"/user_unfollow/"+id,
+                method:"GET",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                }
+            }).then(res=>{
+                // 从服务器返回的数据中解购出需要的数据
+                const {message} = res.data;
+                // 判断是否取消关注成功
+                if(message === "取消关注成功"){
+                    // 从列表中删除
+                    this.list.splice(index, 1);
+                    this.$toast.success(message);
+                }
+            })
         }
     },
 
