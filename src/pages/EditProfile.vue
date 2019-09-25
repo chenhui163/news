@@ -59,13 +59,11 @@ export default {
         // 上传文件的方法
         afterRead(file) {
             // file 为返回的选中的图片
-            // console.log(file);
 
             //构造表单数据
             const formData = new FormData();
             // 通过表单使用append方法追加数据
             formData.append('file', file.file);
-            // console.log(formData);
 
             // 发送文件上传请求
             this.$axios({
@@ -82,7 +80,23 @@ export default {
                 // 替换用户当前头像
                 this.profile.head_img = this.$axios.defaults.baseURL + data.url;
 
-                
+                // 再次发送axios请求，把头像的url上传到用户资料
+                this.$axios({
+                    url:"/user_update/"+localStorage.getItem("user_id"),
+                    method:"POST",
+                    // 发送token到服务器进行验证
+                    headers:{
+                        Authorization: localStorage.getItem("token")
+                    },
+                    data:{
+                        head_img:data.url
+                    }
+                }).then(res=>{
+                    // 从服务器返回的数据中解购出需要的数据
+                    const {message} = res.data;
+                    // 如果修改成功，则弹出提示
+                    if(message==="修改成功") this.$toast.success(message);
+                })
             })
 
         }
