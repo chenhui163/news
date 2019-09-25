@@ -2,11 +2,7 @@
   <div class="edit_profile">
 
       <!-- 头部部分 -->
-      <div class="head">
-          <span class="iconfont iconjiantou" @click="$router.back()"></span>
-          <i>编辑资料</i>
-          <span></span>
-      </div>
+      <HeaderNormal title="编辑资料"></HeaderNormal>
 
       <!-- 图片部分 -->
       <div class="head_image">
@@ -84,11 +80,14 @@
 <script>
 /* 引入条形组件 */
 import CellBar from "@/components/CellBar";
+/* 引入头部组件 */
+import HeaderNormal from "@/components/HeaderNormal";
 
 export default {
 // 注册条形组件，components属性的值是一个对象
     components:{
-        CellBar
+        CellBar,
+        HeaderNormal
     },
 
     // 数据
@@ -267,12 +266,7 @@ export default {
 
 <style scope lang="less">
     .edit_profile{
-        .head{
-            display: flex;
-            justify-content: space-between;
-            padding: 15/360*100vw 20/360*100vw;
-            font-size: 16/360*100vw;
-        }
+        
 
         .head_image{
             display: flex;

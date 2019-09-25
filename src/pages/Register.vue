@@ -137,6 +137,8 @@ export default {
         if(message==="注册成功"){
           // 注册成功则跳转到登录页
           this.$router.push("/login")
+        }else{
+          this.$toast.fail(message);
         }
 
       })
