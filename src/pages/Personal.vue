@@ -1,16 +1,18 @@
 <template>
   <div>
     <!-- 用户信息头部部分 -->
-    <div class="userInfo">
-      <img :src="userData.head_img"/>
-      <div class="infoCenter">
-        <div class="name">
-          <span class="iconfont iconxingbienan"></span>{{userData.nickname}}
-        </div>
-        <div class="time">2019-9-24</div>
-      </div>
-      <span class="iconfont iconjiantou1"></span>
-    </div>
+    <router-link to="/edit-profile">
+        <div class="userInfo">
+          <img :src="userData.head_img"/>
+          <div class="infoCenter">
+            <div class="name">
+              <span class="iconfont iconxingbienan"></span>{{userData.nickname}}
+            </div>
+            <div class="time">2019-9-24</div>
+          </div>
+          <span class="iconfont iconjiantou1"></span>
+        </div>    
+    </router-link>
 
     <!-- 我的关注 -->
     <CellBar

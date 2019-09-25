@@ -21,7 +21,7 @@ import App from "@/App";
 import Login from "@/pages/Login"; // 导入登录页面组件
 import Register from "@/pages/Register"; // 导入登录页面组件
 import Personal from "@/pages/Personal"; // 导入登录页面组件
-
+import EditProfile from "@/pages/EditProfile"; // 导入登录页面组件
 
 /* 
     插件：2.任何插件要是用都必须先注册
@@ -44,7 +44,8 @@ const routes = [
     // { path:'/',redirect:"/login" },
     { path:'/login', component: Login },
     { path:'/register', component: Register },
-    { path:'/personal', component: Personal }
+    { path:'/personal', component: Personal },
+    { path:'/edit-profile', component: EditProfile }
 
 ]
 
