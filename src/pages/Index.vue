@@ -24,8 +24,8 @@
         <van-tabs v-model="active" sticky swipeable>
           <!--  -->
           <van-tab
-            v-for="index in 8"
-            :title="'选项 ' + index"
+            v-for="(item,index) in list"
+            :title="item.name"
             :key="index"
           >
             
@@ -55,8 +55,12 @@ export default {
     // 数据
     data(){
         return {
+            // 栏目列表
+            list:[],
+
             // 标识当前被选中的栏目标签
-            active:0
+            // 判断是否有关注栏目，无论有关注栏目，都默认显示头条栏目
+            active:localStorage.getItem("token") ? 1 : 0,
         }
     },
 
@@ -67,7 +71,31 @@ export default {
             this.$router.push("/personal");
         }
 
+    },
+
+
+    // 页面加载完毕时执行
+    mounted(){
+        // 判断是否有token，如果有就给头部加上token验证
+        const config = {
+            url:"/category",
+        }
+        if(localStorage.getItem("token")){
+            config.headers = {
+                Authorization: localStorage.getItem("token")
+            }
+        }
+
+        this.$axios(config).then(res=>{
+            // 从服务器返回的数据中解购出需要的数据
+            const {data} = res.data;
+            // 将数组数据赋值给list数组
+            this.list = data;
+            console.log(this.list)
+        })
+
     }
+
 
 }
 </script>
