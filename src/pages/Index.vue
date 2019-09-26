@@ -24,13 +24,15 @@
         <van-tabs v-model="active" sticky swipeable>
           <!--  -->
           <van-tab
-            v-for="(item,index) in list"
+            v-for="(item,index) in categories"
             :title="item.name"
             :key="index"
           >
             
             <!-- 页面内容 -->
-            <PostCard></PostCard>
+            <PostCard
+                :categories="d"
+            ></PostCard>
 
           </van-tab>
         </van-tabs>
@@ -56,12 +58,31 @@ export default {
     data(){
         return {
             // 栏目列表
-            list:[],
+            categories:[],
+            // 栏目id
+            cid:999,
 
             // 标识当前被选中的栏目标签
             // 判断是否有关注栏目，无论有关注栏目，都默认显示头条栏目
             active:localStorage.getItem("token") ? 1 : 0,
         }
+    },
+
+    // 监听
+    watch:{
+        // 监听栏目切换
+        active(){
+            /* 
+                active作为tab栏目的索引值，在tab栏目切换时
+                active也会被修改成切换到的栏目对应的索引值
+                通过索引值找到栏目数组中的那一项，取到id值
+            */
+            this.cid = this.categories[this.active].id;
+            console.log(this.cid);
+
+
+        }
+
     },
 
     // 方法
@@ -90,8 +111,8 @@ export default {
             // 从服务器返回的数据中解购出需要的数据
             const {data} = res.data;
             // 将数组数据赋值给list数组
-            this.list = data;
-            console.log(this.list)
+            this.categories = data;
+            console.log(this.categories)
         })
 
     }
