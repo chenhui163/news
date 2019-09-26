@@ -1,8 +1,8 @@
 <template>
   <div>
       
-      <!-- 头部 -->
-      <div class="header">
+    <!-- 头部 -->
+    <div class="header">
           <!-- logo -->
           <span class="iconfont iconnew"></span>
           <!-- 搜索框 -->
@@ -12,10 +12,11 @@
           </div>
           <!-- 个人中心 -->
           <span class="iconfont iconwode" @click="handlePersonal"></span>
-      </div>
+    </div>
 
-
+    <!-- 内容 -->
     <div class="tab-column">
+
         <!-- 栏目列表 -->
         <!-- v-model: 默认选中的标签栏 -->
         <!-- sticky: 配置粘性布局 -->
@@ -29,6 +30,7 @@
           >
             
             <!-- 页面内容 -->
+            <PostCard></PostCard>
 
           </van-tab>
         </van-tabs>
@@ -40,7 +42,15 @@
 </template>
 
 <script>
+// 引入文章列表模块
+import PostCard from "@/components/PostCard";
+
 export default {
+
+    // 注册文章列表模块
+    components:{
+        PostCard
+    },
 
     // 数据
     data(){
