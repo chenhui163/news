@@ -2,18 +2,18 @@
   <div>
 
         <!-- 第一种，单图片加文字 -->
-        <div class="post">
+        <div class="post" v-for="(item,index) in post" :key="index">
             <!-- 左侧文字部分 -->
             <div  class="post-text">
-                <p class="post-title">哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂哎呦喂</p>
+                <p class="post-title">{{item.title}}</p>
                 <p class="post-info">
-                    <span>中国新闻</span>
-                    <i>981跟贴</i>
+                    <span>{{item.user.nickname}}</span>
+                    <i>{{item.comment_length}}跟贴</i>
                 </p>
             </div>
 
             <!-- 右侧图片部分 -->
-            <img class="post-img" src="../../static/ice-tree.jpg">
+            <img class="post-img" :src="item.cover[0].url">
         </div>
 
         <!-- 第二种，多张图片加文字 -->
@@ -27,7 +27,10 @@
 
 <script>
 export default {
-
+    // 定义可以接受的属性
+    props:[
+        "post"
+    ]
 }
 </script>
 

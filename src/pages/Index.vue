@@ -31,7 +31,7 @@
             
             <!-- 页面内容 -->
             <PostCard
-                :categories="d"
+                :post="post"
             ></PostCard>
 
           </van-tab>
@@ -65,6 +65,9 @@ export default {
             // 标识当前被选中的栏目标签
             // 判断是否有关注栏目，无论有关注栏目，都默认显示头条栏目
             active:localStorage.getItem("token") ? 1 : 0,
+
+            // 请求到的文章列表
+            post:[]
         }
     },
 
@@ -80,7 +83,17 @@ export default {
             this.cid = this.categories[this.active].id;
             console.log(this.cid);
 
-
+            // 发起请求，获取该栏目的文章列表
+            this.$axios({
+                url:"/post?category="+this.cid,
+                method:"GET"
+            }).then(res=>{
+                // 将数据从服务器但会的数据中解购出来
+                const {data} = res.data;
+                // 赋值给post文章列表数组
+                this.post = data;
+                console.log(this.post)
+            })
         }
 
     },
@@ -112,7 +125,18 @@ export default {
             const {data} = res.data;
             // 将数组数据赋值给list数组
             this.categories = data;
-            console.log(this.categories)
+        })
+
+        // 发起请求，获取该栏目的文章列表
+        this.$axios({
+            url:"/post?category="+this.cid,
+            method:"GET"
+        }).then(res=>{
+            // 将数据从服务器但会的数据中解购出来
+            const {data} = res.data;
+            // 赋值给post文章列表数组
+            this.post = data;
+            console.log(this.post)
         })
 
     }
