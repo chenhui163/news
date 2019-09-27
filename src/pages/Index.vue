@@ -157,7 +157,7 @@ export default {
 
                     // 赋值给post文章列表数组
                     this.posts = [...this.posts,...data];
-                    
+
                     // 页面初始请求完毕后，让分页变量+1
                     this.pageIndex++;
 
@@ -185,8 +185,23 @@ export default {
         this.$axios(config).then(res=>{
             // 从服务器返回的数据中解购出需要的数据
             const {data} = res.data;
-            // 将数组数据赋值给list数组
-            this.categories = data;
+
+            // 声明数组对象，用于接收遍历的栏目数据
+            const newData = [];
+
+            // 遍历data，并为data中每一个栏目添加各自的属性，也就是初始化各栏目中的数据
+            // 初始化完毕后，追加进数组
+            data.forEach(item=>{
+                item.post = [];
+                item.loading = false;
+                item.finished = false;
+                item.pageIndex = 1;
+                newData.push(item);
+            })
+            
+            // 将新的栏目数据数组newData赋值给list数组
+            this.categories = newData;
+            console.log(this.categories)
         })
 
         // 发起请求，获取该栏目的文章列表
@@ -198,12 +213,10 @@ export default {
             const {data} = res.data;
             // 赋值给post文章列表数组
             this.posts = data;
-            // 页面初始请求完毕后，让分页变量+1
+            // 页面初始请求完毕后，让分页变量+1，下次再发起文章数据请求的时候就是请求第2页的数据
             this.pageIndex++;
         })
-
     }
-
 
 }
 </script>
