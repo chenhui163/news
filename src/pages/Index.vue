@@ -90,6 +90,11 @@ export default {
             // 是否有更多数据，如果加载完所有的数据，改为true
             finished:false,
 
+            // 分页的变量，标识是第几页，初始是第1页
+            pageIndex:1,
+            // 每一页加载的数量，一般设置之后不会修改
+            pageSize:5
+
         }
     },
 
@@ -129,11 +134,36 @@ export default {
 
         // 页面文章加载
         onLoad(){
+            console.log(this.pageIndex)
             // 异步更新数据
             setTimeout(()=>{
                 console.log("到底部了");
-                this.loading = false;
-                this.finished = true;
+
+                // 页面滚动到底部时，继续请求文章数据
+                this.$axios({
+                    url:`/post?pageIndex=${this.pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
+                    method:"GET"
+                }).then(res=>{
+                    // 将数据从服务器但会的数据中解购出来
+                    const {data} = res.data;
+
+                    /* 
+                        判断服务器是否没有更多的数据
+                        一般来说，如果加载的数据的个数小于请求加载的数量，就是服务器没有数据了
+                    */
+                    if(data.length<this.pageSize){
+                        this.finished = true;
+                    }
+
+                    // 赋值给post文章列表数组
+                    this.posts = [...this.posts,...data];
+                    
+                    // 页面初始请求完毕后，让分页变量+1
+                    this.pageIndex++;
+
+                    // 声明本次数据已经加载完毕
+                    this.loading = false;
+                })
             },3000);
         }
 
@@ -151,7 +181,7 @@ export default {
                 Authorization: localStorage.getItem("token")
             }
         }
-
+        // 请求栏目列表
         this.$axios(config).then(res=>{
             // 从服务器返回的数据中解购出需要的数据
             const {data} = res.data;
@@ -161,13 +191,15 @@ export default {
 
         // 发起请求，获取该栏目的文章列表
         this.$axios({
-            url:"/post?category="+this.cid,
+            url:`/post?pageIndex=${this.pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
             method:"GET"
         }).then(res=>{
             // 将数据从服务器但会的数据中解购出来
             const {data} = res.data;
             // 赋值给post文章列表数组
             this.posts = data;
+            // 页面初始请求完毕后，让分页变量+1
+            this.pageIndex++;
         })
 
     }
