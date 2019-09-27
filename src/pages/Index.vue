@@ -29,12 +29,26 @@
             :key="index"
           >
             
-            <!-- 文章模块组件，post是单篇文章详情 -->
-            <PostCard
-                v-for="(item,index) in posts"
-                :key="index"
-                :post="item"
-            ></PostCard>
+            <!-- v-model: 列表是否在加载 -->
+            <!-- finished: 是否加载完毕 -->
+            <!-- load: 到底部触发的事件 -->
+            <!-- immediate-check 禁止list立即出发onload -->
+            <van-list
+              v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad"
+              :immediate-check="false"
+            >
+              
+              <!-- 文章模块组件，post是单篇文章详情 -->
+              <PostCard
+                  v-for="(item,index) in posts"
+                  :key="index"
+                  :post="item"
+              ></PostCard>
+
+            </van-list>
 
           </van-tab>
         </van-tabs>
@@ -69,7 +83,13 @@ export default {
             active:localStorage.getItem("token") ? 1 : 0,
 
             // 请求到的文章列表
-            posts:[]
+            posts:[],
+
+            // 是否在加载,加载完毕后需要手动变为false
+            loading:false,
+            // 是否有更多数据，如果加载完所有的数据，改为true
+            finished:false,
+
         }
     },
 
@@ -105,6 +125,16 @@ export default {
         // 跳转到个人中心
         handlePersonal(){
             this.$router.push("/personal");
+        },
+
+        // 页面文章加载
+        onLoad(){
+            // 异步更新数据
+            setTimeout(()=>{
+                console.log("到底部了");
+                this.loading = false;
+                this.finished = true;
+            },3000);
         }
 
     },
