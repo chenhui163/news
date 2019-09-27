@@ -34,8 +34,8 @@
             <!-- load: 到底部触发的事件 -->
             <!-- immediate-check 禁止list立即出发onload -->
             <van-list
-              v-model="loading"
-              :finished="finished"
+              v-model="item.loading"
+              :finished="item.finished"
               finished-text="没有更多了"
               @load="onLoad"
               :immediate-check="false"
@@ -43,9 +43,9 @@
               
               <!-- 文章模块组件，post是单篇文章详情 -->
               <PostCard
-                  v-for="(item,index) in posts"
-                  :key="index"
-                  :post="item"
+                  v-for="(v,i) in item.posts"
+                  :key="i"
+                  :post="v"
               ></PostCard>
 
             </van-list>
@@ -83,15 +83,15 @@ export default {
             active:localStorage.getItem("token") ? 1 : 0,
 
             // 请求到的文章列表
-            posts:[],
+            // posts:[],
 
             // 是否在加载,加载完毕后需要手动变为false
-            loading:false,
+            // loading:false,
             // 是否有更多数据，如果加载完所有的数据，改为true
-            finished:false,
+            // finished:false,
 
             // 分页的变量，标识是第几页，初始是第1页
-            pageIndex:1,
+            // pageIndex:1,
             // 每一页加载的数量，一般设置之后不会修改
             pageSize:5
 
@@ -110,17 +110,17 @@ export default {
             this.cid = this.categories[this.active].id;
             console.log(this.cid);
 
-            // 发起请求，获取该栏目的文章列表
-            this.$axios({
-                url:"/post?category="+this.cid,
-                method:"GET"
-            }).then(res=>{
-                // 将数据从服务器但会的数据中解购出来
-                const {data} = res.data;
-                // 赋值给post文章列表数组
-                this.posts = data;
-                console.log(this.posts)
-            })
+            // // 发起请求，获取该栏目的文章列表
+            // this.$axios({
+            //     url:`/post?pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
+            //     method:"GET"
+            // }).then(res=>{
+            //     // 将数据从服务器但会的数据中解购出来
+            //     const {data} = res.data;
+                
+            //     // 赋值给post文章列表数组
+            //     this.categories[this.active].posts = data;
+            // })
         }
 
     },
@@ -134,14 +134,14 @@ export default {
 
         // 页面文章加载
         onLoad(){
-            console.log(this.pageIndex)
+            console.log(this.categories[this.active].pageIndex)
             // 异步更新数据
             setTimeout(()=>{
                 console.log("到底部了");
 
                 // 页面滚动到底部时，继续请求文章数据
                 this.$axios({
-                    url:`/post?pageIndex=${this.pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
+                    url:`/post?pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
                     method:"GET"
                 }).then(res=>{
                     // 将数据从服务器但会的数据中解购出来
@@ -152,19 +152,19 @@ export default {
                         一般来说，如果加载的数据的个数小于请求加载的数量，就是服务器没有数据了
                     */
                     if(data.length<this.pageSize){
-                        this.finished = true;
+                        this.categories[this.active].finished = true;
                     }
 
                     // 赋值给post文章列表数组
-                    this.posts = [...this.posts,...data];
+                    this.categories[this.active].posts = [...this.categories[this.active].posts,...data];
 
                     // 页面初始请求完毕后，让分页变量+1
-                    this.pageIndex++;
+                    this.categories[this.active].pageIndex++;
 
                     // 声明本次数据已经加载完毕
-                    this.loading = false;
+                    this.categories[this.active].loading = false;
                 })
-            },3000);
+            },2000);
         }
 
     },
@@ -192,7 +192,7 @@ export default {
             // 遍历data，并为data中每一个栏目添加各自的属性，也就是初始化各栏目中的数据
             // 初始化完毕后，追加进数组
             data.forEach(item=>{
-                item.post = [];
+                item.posts = [];
                 item.loading = false;
                 item.finished = false;
                 item.pageIndex = 1;
@@ -201,21 +201,21 @@ export default {
             
             // 将新的栏目数据数组newData赋值给list数组
             this.categories = newData;
-            console.log(this.categories)
+
+            // 先等待栏目请求完毕，再请求该头条的文章列表
+            this.$axios({
+                url:`/post?pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
+                method:"GET"
+            }).then(res=>{
+                // 将数据从服务器但会的数据中解购出来
+                const {data} = res.data;
+                // 赋值给头条栏目的文章列表
+                this.categories[this.active].posts = data;
+                // 页面初始请求完毕后，分页变量+1，下次再发起头条栏目的文章数据请求时就请求第2页的数据
+                this.categories[this.active].pageIndex++;
+            })
         })
 
-        // 发起请求，获取该栏目的文章列表
-        this.$axios({
-            url:`/post?pageIndex=${this.pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
-            method:"GET"
-        }).then(res=>{
-            // 将数据从服务器但会的数据中解购出来
-            const {data} = res.data;
-            // 赋值给post文章列表数组
-            this.posts = data;
-            // 页面初始请求完毕后，让分页变量+1，下次再发起文章数据请求的时候就是请求第2页的数据
-            this.pageIndex++;
-        })
     }
 
 }
