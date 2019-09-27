@@ -40,7 +40,23 @@
         </div>
 
         <!-- 第三种，视频加文字 -->
+        <div class="video"
+            v-if="post.type===2&&post.cover.length<3"
+            >
+            <!-- 文字标题部分 -->
+            <p class="video-title">{{post.title}}</p>
+            <!-- 中间图片部分 -->
+            <div class="video-img">
+                <img :src="post.cover[0].url">
+                <span class="iconfont iconshipin"></span>
+            </div>
 
+            <!-- 文字评论部分 -->
+            <p class="video-info">
+                <span>{{post.user.nickname}}</span>
+                <i>{{post.comment_length}}跟贴</i>
+            </p>
+        </div>
 
   </div>
 </template>
@@ -129,6 +145,51 @@ export default {
     }
 
     /* 视频样式 */
-    
+    .video{
+        padding: 10px;
+        border-bottom: 1px solid #aaaaaa;
+
+        .video-title{
+            margin-bottom: 5px;
+            font-size: 16/360*100vw;
+            line-height: 22/360*100vw;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+
+        .video-img{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10/360*100vw;
+            img{
+                width: 100%;
+            }
+            span{
+                position: absolute;
+                width: 50/360*100vw;
+                height: 50/360*100vw;
+                font-size: 50/360*100vw;
+                color: rgba(255, 255, 255, 0.6);
+                background: rgba(0, 0, 0, .4);
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-shrink: 0;
+            }
+        }
+
+        .video-info{
+            font-size: 12/360*100vw;
+            color: #868686;
+            span{
+                margin-right: 10px;
+            }
+        }
+    }
 
 </style>
