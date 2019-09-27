@@ -29,9 +29,11 @@
             :key="index"
           >
             
-            <!-- 页面内容 -->
+            <!-- 文章模块组件，post是单篇文章详情 -->
             <PostCard
-                :post="post"
+                v-for="(item,index) in posts"
+                :key="index"
+                :post="item"
             ></PostCard>
 
           </van-tab>
@@ -67,7 +69,7 @@ export default {
             active:localStorage.getItem("token") ? 1 : 0,
 
             // 请求到的文章列表
-            post:[]
+            posts:[]
         }
     },
 
@@ -91,8 +93,8 @@ export default {
                 // 将数据从服务器但会的数据中解购出来
                 const {data} = res.data;
                 // 赋值给post文章列表数组
-                this.post = data;
-                console.log(this.post)
+                this.posts = data;
+                console.log(this.posts)
             })
         }
 
@@ -135,8 +137,7 @@ export default {
             // 将数据从服务器但会的数据中解购出来
             const {data} = res.data;
             // 赋值给post文章列表数组
-            this.post = data;
-            console.log(this.post)
+            this.posts = data;
         })
 
     }
