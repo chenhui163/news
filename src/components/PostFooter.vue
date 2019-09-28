@@ -6,9 +6,12 @@
             </div>
             <div class="footer-right">
                 <span class="iconfont iconpinglun-">
-                    <i class="pinglun">1024</i>
+                    <i class="pinglun">{{post.comment_length}}</i>
                 </span>
-                <i class="iconfont iconshoucang"></i>
+                <i class="iconfont iconshoucang"
+                    @click="$emit('handleStar')"
+                    :class="{ star_active: post.has_star }"
+                ></i>
                 <em class="iconfont iconfenxiang"></em>
             </div>
         </div>
@@ -22,6 +25,10 @@
 
 <script>
 export default {
+
+    props:[
+        "post"
+    ],
 
     // 数据
     data(){
@@ -97,6 +104,9 @@ export default {
                             background: red;
                             color: #fff;
                         }
+                    }
+                    .star_active{
+                        color: red;
                     }
                 }
             }

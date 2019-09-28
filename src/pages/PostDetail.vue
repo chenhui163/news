@@ -36,7 +36,10 @@
     </div>
 
     <!-- 文章底部 -->
-    <PostFooter></PostFooter>
+    <PostFooter
+        :post="detail"
+        @handleStar="handleStar"
+    ></PostFooter>
 
   </div>
 </template>
@@ -124,7 +127,30 @@ export default {
                 }
                 this.$toast.success(message);
             })
+        },
+
+        // 收藏文章
+        handleStar(){
+            this.$axios({
+                url:"/post_star/"+this.detail.id,
+                method:"GET",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                }
+            }).then(res=>{
+                console.log(res.data)
+                const {message} = res.data;
+                if(message==="收藏成功"){
+                    this.detail.has_star = true;
+                }
+                if(message==="取消成功"){
+                    this.detail.has_star = false;
+                }
+                this.$toast.success(message);
+            })
         }
+
     },
 
     // 页面加载完毕时执行
