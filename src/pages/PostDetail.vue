@@ -7,8 +7,8 @@
             <i class="iconfont iconnew"></i>
         </div>
         <div class="header-right">
-            <span class="focus">关注</span>
-            <!-- <span class="focus">已关注</span> -->
+            <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
+            <span class="focus ofcus_active" v-else>已关注</span>
         </div>
     </div>
 
@@ -58,22 +58,55 @@ export default {
                 }
             },
             
+            isFocus:false
+        }
+    },
+
+    // 方法
+    methods:{
+        // 关注用户
+        handleFollow(){
+            // 发送请求关注用户
+            this.$axios({
+                url:"/user_follows/"+this.detail.user.id,
+                method:"GET",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message} = res.data;
+                console.log(message)
+                if(message==="关注成功"){
+                    this.detail.has_follow = true;
+                }
+            })
         }
     },
 
     // 页面加载完毕时执行
     mounted(){
         const id = this.$route.params.id;
+        // 请求的配置
+        const config = {
+            url:"/post/"+id,
+            method:"GET",
+        }
+        // 尝试获取本地存储的token
+        const token = localStorage.getItem("token");
+        // 判断是否有token
+        if(token){
+            config.headers = {
+                Authorization: localStorage.getItem("token")
+            }
+        }
 
         // 根据文章的id请求文章数据
-        this.$axios({
-            url:"/post/"+id,
-            method:"GET"
-        }).then(res=>{
+        this.$axios(config).then(res=>{
             console.log(res);
             // 将需要的数据解购出来
             const {data} = res.data;
-            // 将数据赋值给 post
+            // 将数据赋值给 detail
             this.detail = data;
         })
     }
@@ -109,7 +142,7 @@ export default {
                 }
             }
             .header-right{
-                span{
+                .focus{
                     display: block;
                     width: 55/360*100vw;
                     height: 25/360*100vw;
@@ -119,6 +152,10 @@ export default {
                     font-size: 13/360*100vw;
                     border-radius: 50px;
                     border: 1px solid #ccc;
+                }
+                .ofcus_active{
+                    color: red;
+                    border-color: red;
                 }
             }
         }
