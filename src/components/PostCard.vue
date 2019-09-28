@@ -7,14 +7,18 @@
             >
             <!-- 左侧文字部分 -->
             <div  class="post-text">
-                <p class="post-title">{{post.title}}</p>
+                <router-link :to="`/post-detail/${post.id}`">
+                    <p class="post-title">{{post.title}}</p>
+                </router-link>
                 <p class="post-info">
                     <span>{{post.user.nickname}}</span>
                     <i>{{post.comment_length}}跟贴</i>
                 </p>
             </div>
             <!-- 右侧图片部分 -->
-            <img class="post-img" :src="post.cover[0].url">
+            <router-link :to="`/post-detail/${post.id}`">
+                <img class="post-img" :src="post.cover[0].url">
+            </router-link>
         </div>
 
         <!-- 第二种，多张图片加文字 -->
@@ -22,15 +26,19 @@
             v-if="post.type===2&&post.cover.length>1"
             >
             <!-- 文字标题部分 -->
-            <p class="multiple-title">{{post.title}}</p>
+            <router-link :to="`/post-detail/${post.id}`">
+                <p class="multiple-title">{{post.title}}</p>
+            </router-link>
             <!-- 中间图片部分 -->
-            <div class="multiple-img">
-                <img
-                    v-for="(item,index) in post.cover"
-                    :src="post.cover[index].url"
-                    :key="index"
-                >
-            </div>
+            <router-link :to="`/post-detail/${post.id}`">
+                <div class="multiple-img">
+                    <img
+                        v-for="(item,index) in post.cover"
+                        :src="post.cover[index].url"
+                        :key="index"
+                    >
+                </div>
+            </router-link>
 
             <!-- 文字评论部分 -->
             <p class="multiple-info">
@@ -44,12 +52,16 @@
             v-if="post.type===2&&post.cover.length<3"
             >
             <!-- 文字标题部分 -->
-            <p class="video-title">{{post.title}}</p>
+            <router-link :to="`/post-detail/${post.id}`">
+                <p class="video-title">{{post.title}}</p>
+            </router-link>
             <!-- 中间图片部分 -->
-            <div class="video-img">
-                <img :src="post.cover[0].url">
-                <span class="iconfont iconshipin"></span>
-            </div>
+            <router-link :to="`/post-detail/${post.id}`">
+                <div class="video-img">
+                    <img :src="post.cover[0].url">
+                    <span class="iconfont iconshipin"></span>
+                </div>
+            </router-link>
 
             <!-- 文字评论部分 -->
             <p class="video-info">

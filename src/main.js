@@ -25,7 +25,8 @@ import EditProfile from "@/pages/EditProfile"; // 导入登录页面组件
 import UserFollow from "@/pages/UserFollow"; // 导入登录页面组件
 import UserComment from "@/pages/UserComment"; // 导入登录页面组件
 
-import Index from "@/pages/Index"; // 导入登录页面组件
+import Index from "@/pages/Index"; // 导入首页页面组件
+import PostDetail from "@/pages/PostDetail"; // 导入首页页面组件
 
 /* 
     插件：2.任何插件要是用都必须先注册
@@ -53,7 +54,8 @@ const routes = [
     { path:'/user-follow', component: UserFollow },
     { path:'/user-comment', component: UserComment },
 
-    { path:'/', component: Index }
+    { path:'/', component: Index },
+    { path:'/post-detail/:id', component: PostDetail }
 
 ]
 
