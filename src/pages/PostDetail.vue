@@ -23,8 +23,10 @@
 
         <div class="article-btn">
             <div class="btn-box">
-                <span class="iconfont icondianzan"></span>
-                996
+                <span class="iconfont icondianzan"
+                    :class="{ has_like: detail.has_like }" @click="handleLike"
+                ></span>
+                <i ref="num">{{detail.like_length}}</i>
             </div>
             <div class="btn-box">
                 <span class="iconfont iconweixin weixin"></span>
@@ -94,10 +96,33 @@ export default {
                 }
             }).then(res=>{
                 const {message} = res.data;
-                console.log(message)
                 if(message==="取消关注成功"){
                     this.detail.has_follow = false;
                 }
+            })
+        },
+
+        // 点赞/取消点赞文章
+        handleLike(){
+            this.$axios({
+                url:"/post_like/"+this.detail.id,
+                method:"GET",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                }
+            }).then(res=>{
+                console.log(res.data)
+                const {message} = res.data;
+                if(message==="点赞成功"){
+                    this.detail.has_like = true;
+                    this.detail.like_length++;
+                }
+                if(message==="取消成功"){
+                    this.detail.has_like = false;
+                    this.detail.like_length--;
+                }
+                this.$toast.success(message);
             })
         }
     },
@@ -125,6 +150,7 @@ export default {
             const {data} = res.data;
             // 将数据赋值给 detail
             this.detail = data;
+            console.log(data)
         })
     }
 
@@ -207,6 +233,9 @@ export default {
                     }
                     .weixin{
                         color: #02c602;
+                    }
+                    .has_like{
+                        color: red;
                     }
                 }
             }
