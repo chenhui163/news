@@ -91,22 +91,7 @@ export default {
             */
       this.cid = this.categories[this.active].id;
       this.onLoad()
-    //   console.log(this.categories[this.active].posts);
-
-    //   // 发起请求，获取该栏目的文章列表
-    //   this.$axios({
-    //     url: `/post?pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}&category=${this.cid}`,
-    //     method: "GET"
-    //   }).then(res => {
-    //     // 将数据从服务器但会的数据中解购出来
-    //     const { data } = res.data;
-    //     // 赋值给post文章列表数组
-    //     // this.categories[this.active].posts = data;
-    //      this.categories[this.active].posts = [
-    //         ...this.categories[this.active].posts,
-    //         ...data
-    //       ];
-    //   });
+   
     }
   },
 
@@ -119,7 +104,6 @@ export default {
 
     // 页面文章加载
     onLoad() {
-      console.log(this.categories[this.active].posts);
       // 异步更新数据
       setTimeout(() => {
         console.log("到底部了");
@@ -139,7 +123,6 @@ export default {
           if (data.length < this.pageSize) {
             this.categories[this.active].finished = true;
           }
-          console.log(this.categories[this.active].posts);
 
           // 赋值给post文章列表数组
           this.categories[this.active].posts = [
