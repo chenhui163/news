@@ -8,7 +8,7 @@
         </div>
         <div class="header-right">
             <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
-            <span class="focus ofcus_active" v-else>已关注</span>
+            <span class="focus ofcus_active" v-else @click="handleUnFollow">已关注</span>
         </div>
     </div>
 
@@ -81,6 +81,24 @@ export default {
                     this.detail.has_follow = true;
                 }
             })
+        },
+        // 取消关注
+        handleUnFollow(){
+            // 发送请求关注用户
+            this.$axios({
+                url:"/user_unfollow/"+this.detail.user.id,
+                method:"GET",
+                // 发送token到服务器进行验证
+                headers:{
+                    Authorization: localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message} = res.data;
+                console.log(message)
+                if(message==="取消关注成功"){
+                    this.detail.has_follow = false;
+                }
+            })
         }
     },
 
@@ -103,7 +121,6 @@ export default {
 
         // 根据文章的id请求文章数据
         this.$axios(config).then(res=>{
-            console.log(res);
             // 将需要的数据解购出来
             const {data} = res.data;
             // 将数据赋值给 detail
