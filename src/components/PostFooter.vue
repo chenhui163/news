@@ -50,10 +50,14 @@ export default {
     .wrap{
             position: fixed;
             left: 0;
-            bottom: 10px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 0 20/360*100vw;
+            height: 50px;
+            padding: 20/360*100vw;
             box-sizing: border-box;
+            background: #fff;
             
             .footer{
                 display: flex;
