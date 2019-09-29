@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <!-- 头部 -->
-    <div class="header">
+    <div class="header" v-if="detail.type===1">
         <div class="header-left">
             <span class="iconfont iconjiantou2" @click="$router.back()"></span>
             <i class="iconfont iconnew"></i>
@@ -13,7 +13,7 @@
     </div>
 
     <!-- 文章部分 -->
-    <div class="article">
+    <div class="article" v-if="detail.type===1">
         <h3 class="article-title">{{detail.title}}</h3>
         <div class="article-info">
             <span>{{detail.user.nickname}}</span>
@@ -33,6 +33,27 @@
                 微信
             </div>
         </div>
+    </div>
+
+    <!-- 视频部分 -->
+    <div class="video-wrap" v-if="detail.type===2">
+        <video
+            src="https://video.pearvideo.com/mp4/adshort/20190927/cont-1607446-14434032_adpkg-ad_hd.mp4"
+            controls
+            class="video"
+        ></video>
+
+        <div class="video-info">
+            <div class="video-user">
+                <img :src="$axios.defaults.baseURL + detail.user.head_img">
+                <span>{{detail.user.nickname}}</span>
+            </div>
+            <div>
+                <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
+                <span class="focus ofcus_active" v-else @click="handleUnFollow">已关注</span>
+            </div>
+        </div>
+        <h3>{{detail.title}}</h3>
     </div>
 
     <!-- 文章底部 -->
@@ -185,6 +206,22 @@ export default {
 
 <style scoped lang="less">
 
+    .focus{
+        display: block;
+        width: 55/360*100vw;
+        height: 25/360*100vw;
+        text-align: center;
+        line-height: 25/360*100vw;
+        box-sizing: border-box;
+        font-size: 13/360*100vw;
+        border-radius: 50px;
+        border: 1px solid #ccc;
+    }
+    .ofcus_active{
+        color: red;
+        border-color: red;
+    }
+
     .wrap{
         padding: 0 20/360*100vw;
 
@@ -211,21 +248,7 @@ export default {
                 }
             }
             .header-right{
-                .focus{
-                    display: block;
-                    width: 55/360*100vw;
-                    height: 25/360*100vw;
-                    text-align: center;
-                    line-height: 25/360*100vw;
-                    box-sizing: border-box;
-                    font-size: 13/360*100vw;
-                    border-radius: 50px;
-                    border: 1px solid #ccc;
-                }
-                .ofcus_active{
-                    color: red;
-                    border-color: red;
-                }
+                
             }
         }
 
@@ -267,7 +290,30 @@ export default {
             }
         }
 
-        
+        .video{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .video-info{
+            margin-top: 210/360*100vw;;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .video-user{
+                display: flex;
+                align-items: center;
+                img{
+                    display: block;
+                    width: 20/360*100vw;
+                    height: 20/360*100vw;
+                }
+            }
+        }
     }
 
 </style>
