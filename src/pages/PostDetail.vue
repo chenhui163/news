@@ -30,7 +30,7 @@
             </div>
             <div class="btn-box">
                 <span class="iconfont iconweixin weixin"></span>
-                微信
+                <a href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#1">微信</a>
             </div>
         </div>
     </div>
@@ -253,7 +253,7 @@ export default {
         }
 
         .article{
-            margin-top: 60/360*100vw;
+            margin-top: 70/360*100vw;
             margin-bottom: 100/360*100vw;
             .article-info{
                 margin-top: 5px;
