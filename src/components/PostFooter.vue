@@ -17,7 +17,7 @@
         </div>
 
         <div class="footer-focus" v-show="isFocus">
-            <textarea placeholder="回复：@中国环球" @blur="handleUnFocus"></textarea>
+            <textarea ref="textarea" placeholder="回复：@中国环球" @blur="handleUnFocus" rows="3"></textarea>
             <span>发送</span>
         </div>
     </div>
@@ -42,6 +42,7 @@ export default {
         // 单行文板框获得焦点时
         handleFocus(){
             this.isFocus = true;
+            this.$refs.textarea.values=123
         },
         handleUnFocus(){
             this.isFocus = false;
@@ -61,8 +62,7 @@ export default {
             display: flex;
             align-items: center;
             width: 100%;
-            height: 50px;
-            padding: 20/360*100vw;
+            padding: 20/360*100vw 20/360*100vw;
             box-sizing: border-box;
             background: #fff;
             
@@ -71,6 +71,7 @@ export default {
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
+                padding: 10/360*100vw;
                 
                 box-sizing: border-box;
                 .footer-left{
@@ -114,11 +115,13 @@ export default {
             .footer-focus{
                 display: flex;
                 align-items: flex-end;
+                width: 100%;
+                padding: 10/360*100vw 0;
                 textarea{
                     margin-right: 13px;
                     padding: 10px;
-                    width: 75%;
-                    height: 80/360*100vw;
+                    width: 78%;
+                    height: 70/360*100vw;
                     font-size: 14/360*100vw;
                     box-sizing: border-box;
                     background: #d7d7d7;

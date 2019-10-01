@@ -51,7 +51,7 @@
             <div>
                 <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
                 <span class="focus ofcus_active" v-else @click="handleUnFollow">已关注</span>
-            </div>
+            </div> n
         </div>
         <h3>{{detail.title}}</h3>
     </div>
