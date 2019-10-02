@@ -5,7 +5,7 @@
                 <input placeholder="写跟贴" @focus="handleFocus">
             </div>
             <div class="footer-right">
-                <span class="iconfont iconpinglun-">
+                <span class="iconfont iconpinglun-" @click="$router.push(`/post-comment/${post.id}`)">
                     <i class="pinglun">{{post.comment_length}}</i>
                 </span>
                 <i class="iconfont iconshoucang"
