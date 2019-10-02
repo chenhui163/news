@@ -6,33 +6,29 @@
         ></HeaderNormal>
 
         <!-- 评论详情 -->
-        <div class="wrap">
+        <div class="wrap"
+            v-for="(item, index) in comments"
+            :key="index"
+        >
             <!-- 用户信息部分 -->
             <div class="user-about">
-                <img src="../../static/yellow-red.jpg">
+                <img :src="$axios.defaults.baseURL + item.user.head_img" v-if="item.user.head_img">
+                <img src="../../static/yellow-red.jpg" v-else>
                 <div>
-                    <p>火星网友</p>
+                    <p>{{item.user.nickname}}</p>
                     <i>2小时前</i>
                 </div>
                 <span>回复</span>
             </div>
 
-            <!-- 当前用户回复其他用户的评论 -->
-            <div class="reply">
-                <div class="other-user">
-                    <div>
-                        <span>1</span>
-                        <em>火星网友</em>
-                        <i>2小时前</i>
-                    </div>
-                    <span>回复</span>
-                </div>
-
-                <p>对对对，说的都对</p>
-            </div>
+            <!-- 评论楼层组件 -->
+            <CommentFloor
+                v-if="item.parent"
+                :data="item.parent"
+            ></CommentFloor>
 
             <!-- 当前用户的评论 -->
-            <p>我觉得也是</p>
+            <p>{{item.content}}</p>
         </div>
 
     </div>
@@ -41,16 +37,37 @@
 <script>
 import HeaderNormal from "@/components/HeaderNormal";
 
+import CommentFloor from "@/components/CommentFloor";
+
 export default {
     
     // 注册
     components:{
-        HeaderNormal
+        HeaderNormal,
+        CommentFloor
+    },
+
+    // 数据
+    data(){
+        return {
+            comments:[]
+        }
+    },
+
+    // 页面加载完毕时执行
+    mounted(){
+        // 获取文章id
+        const {id} = this.$route.params;
+        // 获取文章的评论列表
+        this.$axios({
+            url: "/post_comment/" + id,
+            method:"GET"
+        }).then(res=>{
+            const {data} = res.data;
+            console.log(data);
+            this.comments = data;
+        })
     }
-
-
-
-    // 页面
 
 }
 </script>
@@ -65,6 +82,7 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            margin-top: 10/360*100vw;
 
             img{
                 width: 35/360*100vw;
@@ -85,29 +103,7 @@ export default {
             }
         }
 
-        .reply{
-            margin-top: 10/360*100vw;
-            border: 1px solid #999;
-            padding: 10/360*100vw;
-            .other-user{
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 15/360*100vw;
-                em{
-                    margin-left: 0 10px;
-                   font-size: 14/360*100vw;
-                }
-                i{
-                    color: #999;
-                }
-                span{
-                    color: #999;
-                }
-            }
-            p{
-                margin-bottom: 10/360*100vw;
-            }
-        }
+
         >p{
             margin: 15/360*100vw 0;
             font-size: 14/360*100vw;
