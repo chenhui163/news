@@ -18,7 +18,7 @@
                     <p>{{item.user.nickname}}</p>
                     <i>2小时前</i>
                 </div>
-                <span>回复</span>
+                <span @click="handleReply(item)">回复</span>
             </div>
 
                 <!-- 评论楼层组件 -->
@@ -31,10 +31,13 @@
             <p>{{item.content}}</p>
         </div>
 
-        <!-- 回复的评论页脚组件 -->
+        <!-- 回复的评论页脚组件
+            replyComment:要回复的评论
+         -->
         <PostFooter
             :post="detail"
             @getComments="getComments"
+            :replyComment="replyComment"
         ></PostFooter>
 
     </div>
@@ -61,7 +64,9 @@ export default {
     data(){
         return {
             comments:[],
-            detail:{}
+            detail:{},
+            // 保存点击回复后输入的评论
+            replyComment:null,
         }
     },
 
@@ -76,6 +81,12 @@ export default {
                 const {data} = res.data;
                 this.comments = data;
             })
+        },
+
+        // 点击楼层的回复按钮时候触发的方法
+        handleReply(item){
+            // 获取到当前要回复的评论
+            this.replyComment = item;
         }
     },
 

@@ -43,7 +43,7 @@
             class="video"
         ></video>
 
-        <div class="video-info">
+        <div class="video-info">    
             <div class="video-user">
                 <img :src="$axios.defaults.baseURL + detail.user.head_img">
                 <span>{{detail.user.nickname}}</span>

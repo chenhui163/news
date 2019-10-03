@@ -18,7 +18,7 @@
 
         <div class="footer-focus" v-show="isFocus">
             <textarea ref="textarea"
-                placeholder="回复：@中国环球"
+                :placeholder="placeholder"
                 @blur="handleUnFocus"
                 rows="3"
                 v-model="value"
@@ -32,7 +32,9 @@
 export default {
 
     props:[
-        "post"
+        "post",
+        // 要回复的评论
+        "replyComment",
     ],
 
     // 数据
@@ -40,7 +42,17 @@ export default {
         return {
             isFocus: false,
             // 评论的内容
-            value:""
+            value:"",
+            // 输入框的提示文字
+            placeholder:"写跟贴",
+        }
+    },
+
+    // watch监听
+    watch:{
+        replyComment(){
+            this.isFocus = true;
+            this.placeholder = "@"+this.replyComment.user.nickname;
         }
     },
 
@@ -51,7 +63,10 @@ export default {
             this.isFocus = true;
         },
         handleUnFocus(){
-            this.isFocus = false;
+            // 输入框有值的时候不隐藏
+            if(!this.value){
+                this.isFocus = false;
+            }
         },
 
         // 发布评论
@@ -61,15 +76,21 @@ export default {
                 return ;
             }
 
+            const data = {
+                content:this.value,
+            }
+            // 如果有回复的评论，就加上parent_id
+            if(this.replyComment){
+                data.parent_id = this.replyComment.id;
+            }
+
             this.$axios({
-                url:"/post_comment/"+this.post.id,
+                url:"/post_comment/"+this.post.id,  
                 method:"POST",
                 headers: {
                     Authorization: localStorage.getItem("token")
                 },
-                data:{
-                    content:this.value
-                }
+                data,
             }).then(res=>{
                 const {message} = res.data;
 
@@ -79,6 +100,10 @@ export default {
                     this.$emit("getComments",this.post.id);
                     // 隐藏输入框
                     this.isFocus = false;
+                    // 清空输入框的值
+                    this.value = "";
+                    // 页面滚动到顶部
+                    window.scrollTo(0,0);
                 }
             })
         }
