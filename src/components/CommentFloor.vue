@@ -37,7 +37,7 @@ export default {
     .reply{
     margin-top: 10/360*100vw;
     border: 1px solid #999;
-    padding: 10/360*100vw;
+    
     .other-user{
         display: flex;
         justify-content: space-between;

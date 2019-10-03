@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap">
+    <div class="footer-wrap">
         <div class="footer" v-show="!isFocus">
             <div class="footer-left ">
                 <input placeholder="写跟贴" @focus="handleFocus">
@@ -17,8 +17,13 @@
         </div>
 
         <div class="footer-focus" v-show="isFocus">
-            <textarea ref="textarea" placeholder="回复：@中国环球" @blur="handleUnFocus" rows="3"></textarea>
-            <span>发送</span>
+            <textarea ref="textarea"
+                placeholder="回复：@中国环球"
+                @blur="handleUnFocus"
+                rows="3"
+                v-model="value"
+            ></textarea>
+            <span @click="handleSubmit">发送</span>
         </div>
     </div>
 </template>
@@ -33,7 +38,9 @@ export default {
     // 数据
     data(){
         return {
-            isFocus: false
+            isFocus: false,
+            // 评论的内容
+            value:""
         }
     },
 
@@ -42,10 +49,38 @@ export default {
         // 单行文板框获得焦点时
         handleFocus(){
             this.isFocus = true;
-            this.$refs.textarea.values=123
         },
         handleUnFocus(){
             this.isFocus = false;
+        },
+
+        // 发布评论
+        handleSubmit(){
+            // 如果评论内容为空的话，就不发布
+            if(!this.value){
+                return ;
+            }
+
+            this.$axios({
+                url:"/post_comment/"+this.post.id,
+                method:"POST",
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
+                data:{
+                    content:this.value
+                }
+            }).then(res=>{
+                const {message} = res.data;
+
+                // 如果评论发布成功
+                if(message==="评论发布成功"){
+                    // 触发父组件的方法刷新评论列表
+                    this.$emit("getComments",this.post.id);
+                    // 隐藏输入框
+                    this.isFocus = false;
+                }
+            })
         }
 
     }
@@ -55,14 +90,14 @@ export default {
 
 <style scoped lang="less">
 
-    .wrap{
+    .footer-wrap{
             position: fixed;
             left: 0;
             bottom: 0;
             display: flex;
             align-items: center;
             width: 100%;
-            padding: 20/360*100vw 20/360*100vw;
+            padding: 5/360*100vw 10/360*100vw;
             box-sizing: border-box;
             background: #fff;
             

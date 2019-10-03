@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="box">
         <!-- 头部 -->
         <HeaderNormal
             title="精彩跟贴"
@@ -21,15 +21,21 @@
                 <span>回复</span>
             </div>
 
-            <!-- 评论楼层组件 -->
-            <CommentFloor
-                v-if="item.parent"
-                :data="item.parent"
-            ></CommentFloor>
+                <!-- 评论楼层组件 -->
+                <CommentFloor
+                    v-if="item.parent"
+                    :data="item.parent"
+                ></CommentFloor>
 
             <!-- 当前用户的评论 -->
             <p>{{item.content}}</p>
         </div>
+
+        <!-- 回复的评论页脚组件 -->
+        <PostFooter
+            :post="detail"
+            @getComments="getComments"
+        ></PostFooter>
 
     </div>
 </template>
@@ -39,18 +45,37 @@ import HeaderNormal from "@/components/HeaderNormal";
 
 import CommentFloor from "@/components/CommentFloor";
 
+import PostFooter from "@/components/PostFooter";
+
+
 export default {
     
     // 注册
     components:{
         HeaderNormal,
-        CommentFloor
+        CommentFloor,
+        PostFooter
     },
 
     // 数据
     data(){
         return {
-            comments:[]
+            comments:[],
+            detail:{}
+        }
+    },
+
+    // 方法
+    methods:{
+        // 获取文章的评论列表
+        getComments(id){
+            this.$axios({
+                url: "/post_comment/" + id,
+                method:"GET"
+            }).then(res=>{
+                const {data} = res.data;
+                this.comments = data;
+            })
         }
     },
 
@@ -58,14 +83,25 @@ export default {
     mounted(){
         // 获取文章id
         const {id} = this.$route.params;
-        // 获取文章的评论列表
-        this.$axios({
-            url: "/post_comment/" + id,
-            method:"GET"
-        }).then(res=>{
+        this.getComments(id)
+
+        // 获取文章详情
+        const config = {
+            url:"/post/"+id,
+        }
+
+        const token = localStorage.getItem("token");
+
+        if(token){
+            config.headers={
+                Authorization: token
+            }
+        }
+
+        this.$axios(config).then(res=>{
             const {data} = res.data;
-            console.log(data);
-            this.comments = data;
+            // 保存到详情
+            this.detail = data;
         })
     }
 
@@ -73,6 +109,10 @@ export default {
 </script>
 
 <style scoped lang="less">
+
+    .box{
+        padding-bottom: 80px;
+    }
 
     .wrap{
         padding: 0 20px;
