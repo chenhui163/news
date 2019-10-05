@@ -5,10 +5,12 @@
       <!-- logo -->
       <span class="iconfont iconnew"></span>
       <!-- 搜索框 -->
-      <div class="search">
-        <span class="iconfont iconsearch"></span>
-        <i>搜索新闻</i>
-      </div>
+      <router-link to="/search"  class="search">
+        <div>
+          <span class="iconfont iconsearch"></span>
+          <i>搜索新闻</i>
+        </div>
+      </router-link>
       <!-- 个人中心 -->
       <span class="iconfont iconwode" @click="handlePersonal"></span>
     </div>
@@ -209,6 +211,7 @@ export default {
     background: rgba(255, 255, 255, 0.4);
     border-radius: 21/360 * 100vw;
     text-align: center;
+    color: #fff;
 
     span {
       font-size: 20/360 * 100vw;
