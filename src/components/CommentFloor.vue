@@ -1,21 +1,24 @@
 <template>
     <div class="reply">
-        <div class="other-user">
-            <div>
-                <span>1</span>
-                <em>{{data.user.nickname}}</em>
-                <i>2小时前</i>
+
+        <div style="backgroundColor:#ccc;padding:15px;border-bottom:1px solid #999">
+            <div class="other-user">
+                <div>
+                    <span>1</span>
+                    <em>{{data.user.nickname}}</em>
+                    <i>2小时前</i>
+                </div>
+                <span @click="handleReply">回复</span>
             </div>
-            <span>回复</span>
+            <p>{{data.content}}</p>
         </div>
 
         <!-- 自己再次在这个位置调用了自己 -->
         <CommentFloor
             v-if="data.parent"
             :data="data.parent"
+            @handleReply="handleReply"
         ></CommentFloor>
-  
-        <p>{{data.content}}</p>
     </div>
 </template>
 
@@ -27,7 +30,15 @@ export default {
 
     props:[
         "data"
-    ]
+    ],
+
+    // 方法
+    methods:{
+        handleReply(){
+            this.$emit("handleReply",this.data);
+        }
+
+    }
 
 }
 </script>
@@ -35,8 +46,6 @@ export default {
 <style scoped lang="less">
 
     .reply{
-    margin-top: 10/360*100vw;
-    border: 1px solid #999;
     
     .other-user{
         display: flex;
@@ -53,9 +62,7 @@ export default {
                 color: #999;
             }
         }
-        p{
-            margin-bottom: 10/360*100vw;
-        }
+        
     }
 
 </style>

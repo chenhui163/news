@@ -97,7 +97,7 @@ export default {
                 // 如果评论发布成功
                 if(message==="评论发布成功"){
                     // 触发父组件的方法刷新评论列表
-                    this.$emit("getComments",this.post.id);
+                    this.$emit("getComments",this.post.id,"isReply");
                     // 隐藏输入框
                     this.isFocus = false;
                     // 清空输入框的值
