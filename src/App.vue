@@ -1,7 +1,10 @@
 <template>
   
-    <!-- 占位符，用来渲染其他页面内容 -->
-    <router-view></router-view>
+	<!-- keep-alive动态组件，用于保留组件状态，避免重新被渲染 -->
+    <keep-alive include="index,search">
+		<!-- 占位符，用来渲染其他页面内容 -->
+    	<router-view></router-view>
+    </keep-alive>
 
 </template>
 

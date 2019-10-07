@@ -50,6 +50,10 @@ import PostCard from "@/components/PostCard";
 import { log } from "util";
 
 export default {
+
+  // 声明name属性
+  name:"index",
+
   // 注册文章列表模块
   components: {
     PostCard

@@ -36,6 +36,9 @@
 
 export default {
 
+    // 声明name属性
+    name:"search",
+
     // 注册
     components:{
         PostCard
