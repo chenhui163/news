@@ -37,6 +37,8 @@
           >
             <!-- 文章模块组件，post是单篇文章详情 -->
             <PostCard v-for="(v,i) in item.posts" :key="i" :post="v"></PostCard>
+
+            <van-loading size="24px" vertical v-if="item.posts.length===0">加载中...</van-loading>
           </van-list>
         </van-tab>
       </van-tabs>

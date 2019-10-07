@@ -82,6 +82,18 @@ export default {
     mounted(){
         let search = JSON.parse(localStorage.getItem("news-search")) || [];
         this.history = search;
+    },
+
+    // 组件内的路由守卫，判断如果是首页进入到搜索页的，清空页面的缓存数据
+    beforeRouteEnter(to, from, next){
+        if(from.path==="\/"){
+            next(vm=>{
+                vm.keyword = "";
+                vm.list = [];
+            })
+        }else{
+            next();
+        }
     }
 
 }
