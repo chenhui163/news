@@ -78,7 +78,17 @@ export default {
     // 定义可以接受的属性
     props:[
         "post"
-    ]
+    ],
+
+    // 组件加载完毕时执行
+    mounted(){
+        // 判断封面图片是否包含http，如果不包含则是本地图片，加上基准路径
+        this.post.cover.forEach(v=>{
+            if(v.url.indexOf("http")=== -1){
+                v.url = this.$axios.defaults.baseURL + v.url;
+            }
+        })
+    }
 }
 </script>
 
